@@ -17,8 +17,11 @@ type TXInput struct {
 	//索引值
 	TxIndex int64
 
+	//签名
+	Sig []byte
+
 	//解锁脚本
-	UnlockScript []byte
+	PubKey []byte
 }
 
 type TXOutput struct {
@@ -62,7 +65,7 @@ func NewOutput(value float64, address string) *TXOutput {
 func CreateCoinBase(data, miner string) *Transaction {
 	fmt.Println("创建挖矿交易", miner)
 	//这里的输入应该为空
-	input := TXInput{nil, -1, []byte(data)}
+	input := TXInput{nil, -1, nil,[]byte(data)}
 	//输出到矿工的地址
 	output := NewOutput(reward, miner)
 	//组合成交易
@@ -91,18 +94,18 @@ func NewTransaction(from, to string, amount float64, bc *BlockChain) *Transactio
 		fmt.Printf("本地没有%s钱包,无法创建新的交易", from)
 		return nil
 	}
-	pubHash := wallet.PubKey
+	pubKey := wallet.PubKey
 
-	pubkeyHash := HashPubkey(pubHash)
+	pubkeyHash := HashPubkey(pubKey)
 	//找出交易发起人所有可支配的交易输出
-	suitableUtxos, clac := bc.GetSuitableUtxos(pubHash, amount)
+	suitableUtxos, clac := bc.GetSuitableUtxos(pubkeyHash, amount)
 	//得到适合的交易输出中的信息,组合成交易的输入和输出信息
 	var inputs []TXInput
 	var outputs []TXOutput
 	for txId, txIndexArr := range suitableUtxos {
 		//组合成交易输入
 		for _, index := range txIndexArr {
-			txInput := TXInput{[]byte(txId), index, pubkeyHash}
+			txInput := TXInput{[]byte(txId), index,nil, pubKey}
 			inputs = append(inputs, txInput)
 		}
 	}
