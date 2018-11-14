@@ -2,20 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04c50537-3b7f-41fd-914a-32412054f3e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/icon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/newWallets.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/block.exe" beforeDir="false" afterPath="$PROJECT_DIR$/block.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/blockchain.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/blockchain.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/cli.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/command.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/gui.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/gui.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/proofOfWork.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/proofOfWork.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/transaction.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/wallet.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/wallet.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/walletsCollection.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/walletsCollection.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rsrc.syso" beforeDir="false" afterPath="$PROJECT_DIR$/rsrc.syso" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,20 +33,20 @@
           <entry key="dat" value="1" />
           <entry key="db" value="5" />
           <entry key="gitignore" value="1" />
-          <entry key="go" value="101" />
+          <entry key="go" value="102" />
           <entry key="html" value="1" />
           <entry key="ico" value="2" />
           <entry key="manifest" value="1" />
           <entry key="md" value="1" />
-          <entry key="sh" value="9" />
+          <entry key="sh" value="10" />
           <entry key="todolist" value="1" />
           <entry key="txt" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Bash" value="4" />
-          <entry key="Go" value="101" />
+          <entry key="Bash" value="5" />
+          <entry key="Go" value="102" />
           <entry key="HTML" value="1" />
           <entry key="Image" value="2" />
           <entry key="Markdown" value="1" />
@@ -64,16 +57,16 @@
         <counts>
           <entry key="conf" value="166" />
           <entry key="gitignore" value="7" />
-          <entry key="go" value="22684" />
+          <entry key="go" value="22851" />
           <entry key="html" value="16" />
-          <entry key="sh" value="220" />
+          <entry key="sh" value="263" />
           <entry key="todolist" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Bash" value="97" />
-          <entry key="Go" value="22684" />
+          <entry key="Bash" value="140" />
+          <entry key="Go" value="22851" />
           <entry key="HTML" value="16" />
           <entry key="PLAIN_TEXT" value="314" />
         </counts>
@@ -91,17 +84,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/run.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+            <state relative-caret-position="162">
+              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/newWallets.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/blockchain.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="17" column="6" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="6" />
+            <state relative-caret-position="540">
+              <caret line="340" column="23" selection-start-line="340" selection-start-column="23" selection-end-line="340" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -109,8 +111,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/cli.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="111" column="2" selection-start-line="111" selection-end-line="117" selection-end-column="3" />
+            <state relative-caret-position="139">
+              <caret line="86" selection-start-line="86" selection-end-line="86" />
             </state>
           </provider>
         </entry>
@@ -118,8 +120,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/command.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+            <state relative-caret-position="243">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -127,17 +138,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/walletsCollection.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="26" column="24" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="24" />
+            <state relative-caret-position="291">
+              <caret line="110" column="32" selection-start-line="110" selection-start-column="26" selection-end-line="110" selection-end-column="32" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/transaction.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-810">
-              <caret line="60" column="12" selection-start-line="60" selection-start-column="6" selection-end-line="60" selection-end-column="12" />
+            <state relative-caret-position="270">
+              <caret line="203" column="37" selection-start-line="203" selection-start-column="37" selection-end-line="203" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="81">
+              <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -145,8 +165,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/wallet.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
+            <state relative-caret-position="1660">
+              <caret line="89" column="9" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -174,8 +194,8 @@
       <find>address is</find>
       <find>args:</find>
       <find>inputs are</find>
-      <find>交易校验失败</find>
       <find>校验失败</find>
+      <find>交易校验失败</find>
     </findStrings>
     <dirStrings>
       <dir>E:\NewGoCode\src\block</dir>
@@ -210,16 +230,17 @@
         <option value="$PROJECT_DIR$/core/wallets.go" />
         <option value="$PROJECT_DIR$/build.sh" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/core/command.go" />
         <option value="$PROJECT_DIR$/core/gui.go" />
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/core/proofOfWork.go" />
         <option value="$PROJECT_DIR$/run.sh" />
-        <option value="$PROJECT_DIR$/core/transaction.go" />
         <option value="$PROJECT_DIR$/core/blockchain.go" />
+        <option value="$PROJECT_DIR$/core/cli.go" />
         <option value="$PROJECT_DIR$/core/wallet.go" />
         <option value="$PROJECT_DIR$/core/walletsCollection.go" />
-        <option value="$PROJECT_DIR$/core/cli.go" />
+        <option value="$PROJECT_DIR$/newWallets.sh" />
+        <option value="$PROJECT_DIR$/core/command.go" />
+        <option value="$PROJECT_DIR$/core/transaction.go" />
       </list>
     </option>
   </component>
@@ -337,7 +358,7 @@
       <window_info anchor="bottom" id="调试" order="4" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.5281532" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.097972974" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.1204955" />
       <window_info anchor="bottom" id="Run" order="8" weight="0.32882884" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
@@ -495,13 +516,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sh" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="81">
@@ -568,9 +583,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/icon.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/icon.jpg" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -606,13 +619,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="2" column="19" lean-forward="true" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/proofOfWork.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="365">
@@ -627,27 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/run.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/command.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/blockchain.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wallets.dat">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -655,31 +640,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/wallet.go">
+    <entry file="file://$PROJECT_DIR$/core/walletsCollection.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="291">
+          <caret line="110" column="32" selection-start-line="110" selection-start-column="26" selection-end-line="110" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/walletsCollection.go">
+    <entry file="file://$PROJECT_DIR$/run.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="26" column="24" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="24" />
+        <state relative-caret-position="162">
+          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/newWallets.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/wallet.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1660">
+          <caret line="89" column="9" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/cli.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="111" column="2" selection-start-line="111" selection-end-line="117" selection-end-column="3" />
+        <state relative-caret-position="139">
+          <caret line="86" selection-start-line="86" selection-end-line="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/command.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/transaction.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-810">
-          <caret line="60" column="12" selection-start-line="60" selection-start-column="6" selection-end-line="60" selection-end-column="12" />
+        <state relative-caret-position="270">
+          <caret line="203" column="37" selection-start-line="203" selection-start-column="37" selection-end-line="203" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/blockchain.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="340" column="23" selection-start-line="340" selection-start-column="23" selection-end-line="340" selection-end-column="23" />
         </state>
       </provider>
     </entry>

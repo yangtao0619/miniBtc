@@ -105,6 +105,9 @@ func NewTransaction(from, to string, amount float64, bc *BlockChain) *Transactio
 	pubKey := wallet.PubKey
 	privateKey := wallet.PrivateKey
 
+	fmt.Println("pubkey is ", pubKey, " privateKey is ", privateKey, " real pubkey ",
+		append(privateKey.PublicKey.X.Bytes(), privateKey.PublicKey.Y.Bytes()...))
+
 	pubkeyHash := HashPubkey(pubKey)
 	//找出交易发起人所有可支配的交易输出
 	suitableUtxos, clac := bc.GetSuitableUtxos(pubkeyHash, amount)
@@ -171,7 +174,7 @@ func (transaction *Transaction) Sign(private *ecdsa.PrivateKey, transactions map
 		//设置完数据后将copy中的pubkey置为空,防止验证的时候数据不一致
 		copyTx.TxInputs[i].PubKey = nil
 		hash := copyTx.Id
-
+		fmt.Println("i is ", i, " hash is ", hash)
 		r, s, err := ecdsa.Sign(rand.Reader, private, hash[:])
 		if err != nil {
 			fmt.Println("签名失败,err:", err)
@@ -181,6 +184,7 @@ func (transaction *Transaction) Sign(private *ecdsa.PrivateKey, transactions map
 		//签名之后将签名的值赋给原始交易的sig字段
 		sign = append(r.Bytes(), s.Bytes()...)
 		transaction.TxInputs[i].Sig = sign
+		fmt.Println("sign is ",sign)
 	}
 	//所有的交易数据签名完成之后,返回true
 	fmt.Println("签名成功")
@@ -200,7 +204,7 @@ func (transaction *Transaction) CopyTransaction() *Transaction {
 func (transaction *Transaction) Verify(transactions map[string]*Transaction) bool {
 	//校验传来的所有的交易是否是合法有效的
 	copyTx := transaction.CopyTransaction()
-	for i, input := range copyTx.TxInputs {
+	for i, input := range transaction.TxInputs {
 		//将output中的公钥hash赋值给input的公钥
 		prevTx := transactions[string(input.TXId)]
 		//得到要签名的数据
@@ -240,7 +244,8 @@ func (transaction *Transaction) Verify(transactions map[string]*Transaction) boo
 
 		if !ecdsa.Verify(&pubKeyOrigin, hash, &r, &s) {
 			fmt.Println("校验失败")
-			fmt.Println("pubhash ", prevTx.TxOutputs[input.TxIndex].PublicKeyHash, " pubKeyOrigin ", pubKeyOrigin, " hash ", hash)
+			fmt.Println("i is ", i, " hash ", hash)
+			fmt.Println("sign is ",sign)
 			return false
 		}
 	}

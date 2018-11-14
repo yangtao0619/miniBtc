@@ -68,10 +68,10 @@ func (walletClt *WalletCollection) saveToFile() bool {
 	//使用gob编码
 	var buffer bytes.Buffer
 
-	encoder := gob.NewEncoder(&buffer)
 
 	gob.Register(elliptic.P256())
 
+	encoder := gob.NewEncoder(&buffer)
 	encodeErr := encoder.Encode(walletClt)
 	if encodeErr != nil {
 		fmt.Println("Encode err:", encodeErr)

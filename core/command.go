@@ -6,7 +6,7 @@ import "fmt"
 func (cli *CLI) SendToSomeOne(from string, to, miner string, amount float64, data []byte) {
 	fmt.Println("address ", from, "转账给 address ", to, "金额是", amount, "数据是", string(data))
 	blockChain := GetBlockChainObject()
-	defer blockChain.db.Close()
+	//defer blockChain.db.Close()
 	var txs []*Transaction
 	//创建CoinBase
 	coinBase := CreateCoinBase(string(data), miner)
