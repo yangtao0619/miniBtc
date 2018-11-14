@@ -214,7 +214,7 @@ func (blockChain *BlockChain) GetUtxos(pubkeyHash []byte) []UtxoInfo {
 			if !tx.isCoinBase() {
 				//需要找出这个地址已经消耗掉的交易输出,所以要遍历这个地址的输入,查看是否引用到之前的交易输出
 				for _, txInput := range tx.TxInputs {
-					if bytes.Equal(txInput.PubKey, pubkeyHash) {
+					if bytes.Equal(HashPubkey(txInput.PubKey), pubkeyHash) {
 						//如果存在能解开的输入,将这个输入的索引记录下来
 						fmt.Println("这笔交易已经被花费,记录,txid is ", string(txInput.TXId), "index is ", txInput.TxIndex)
 						spentUtxo[string(txInput.TXId)] = append(spentUtxo[string(txInput.TXId)], txInput.TxIndex)

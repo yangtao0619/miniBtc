@@ -37,7 +37,7 @@ func (cli *CLI) ListAllAddress() {
 	walletCollection := NewWalletCollection()
 	allAddress := walletCollection.GetAllAddress()
 	for index, address := range allAddress {
-		fmt.Printf("%d :%s", index, address)
+		fmt.Printf("%d :%s\n", index, address)
 	}
 }
 func (cli *CLI) PrintBlockChain() {

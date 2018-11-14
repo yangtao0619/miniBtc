@@ -90,8 +90,8 @@ func NewTransaction(from, to string, amount float64, bc *BlockChain) *Transactio
 	//from转化成publichash
 	walletCollection := NewWalletCollection()
 	wallet := walletCollection.WalletClt[from]
-	if wallet != nil {
-		fmt.Printf("本地没有%s钱包,无法创建新的交易", from)
+	if wallet == nil {
+		fmt.Printf("本地没有%s钱包,无法创建新的交易\n", from)
 		return nil
 	}
 	pubKey := wallet.PubKey
