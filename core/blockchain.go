@@ -9,6 +9,7 @@ import (
 	"errors"
 	"bytes"
 	"github.com/base58"
+	"crypto/ecdsa"
 )
 
 type BlockChain struct {
@@ -29,7 +30,8 @@ func CreateBlockChain(address string) *BlockChain {
 	//创建区块链之前需要检测一下区块链数据库文件是否存在
 	if isBlockChainExists() {
 		fmt.Println("BlockChain already exist,please addBlock!")
-		os.Exit(1)
+		//os.Exit(1)
+		return nil
 	}
 
 	//返回一个区块链对象
@@ -72,7 +74,9 @@ func GetBlockChainObject() *BlockChain {
 	//创建区块链之前需要检测一下区块链数据库文件是否存在
 	if !isBlockChainExists() {
 		fmt.Println("BlockChain not exist,please create first!")
-		os.Exit(1)
+		//os.Exit(1)
+		return nil
+
 	}
 	//返回一个区块链对象
 	//首先需要检查一下数据库中是否有区块链的数据,没有的话需要新建,有的话直接给区块链对象赋值即可
@@ -91,7 +95,18 @@ func GetBlockChainObject() *BlockChain {
 	return blockChain
 }
 
-func (blockChain *BlockChain) AppendBlockToChain(data []*Transaction) {
+func (blockChain *BlockChain) AddBlock(transactions []*Transaction) {
+	//添加区块的时候要对区块中的交易数据进行校验
+	validTxs := make([]*Transaction, 0)
+
+	for _, tx := range transactions {
+		if blockChain.Verify(tx) {
+			validTxs = append(validTxs, tx)
+		} else {
+			fmt.Println("交易校验失败")
+		}
+	}
+
 	//向数据库中添加新的区块
 	blockChain.db.Update(func(tx *bolt.Tx) error {
 		//打开水桶
@@ -100,11 +115,12 @@ func (blockChain *BlockChain) AppendBlockToChain(data []*Transaction) {
 		if bucket == nil {
 			//状态错误,直接退出
 			log.Fatal("bucket can not be nil")
-			os.Exit(0)
+			//os.Exit(0)
+			return errors.New("bucket can not be nil")
 		} else {
 			//不为空,向里面插入数据
 			//创建一个新的block对象
-			newBlock := NewBlock(data, blockChain.tailHash)
+			newBlock := NewBlock(validTxs, blockChain.tailHash)
 			bucket.Put(newBlock.Hash, newBlock.toBytes())
 			//切记要将最后一个hash put进去
 			bucket.Put([]byte(lastHashKey), newBlock.Hash)
@@ -134,7 +150,7 @@ func (bcIterator *BlockChainIterator) GetBlock() *Block {
 		bucket := tx.Bucket([]byte(bucketName))
 		if bucket == nil {
 			//如果bucket为nil的时候,panic
-			os.Exit(-1)
+			//os.Exit(-1)
 			return errors.New("bucket is nil")
 		} else {
 			//读取数据
@@ -165,7 +181,7 @@ func (blockChain *BlockChain) PrintBlockChain() {
 		fmt.Printf("Difficulty :%d\n", block.Difficulty)
 		fmt.Printf("Nonce :%d\n", block.Nonce)
 		fmt.Printf("Hash :%x\n", block.Hash)
-		fmt.Printf("Transactions :%s\n", block.Transactions[0].TxInputs[0].PubKey)
+		//fmt.Printf("Transactions :%s\n", block.Transactions[0].TxInputs[0].PubKey)
 		pow := NewProofOfWork(block)
 		fmt.Printf("IsValid : %v\n\n", pow.IsValid())
 		if len(block.PrevHash) == 0 {
@@ -206,7 +222,7 @@ func (blockChain *BlockChain) GetUtxos(pubkeyHash []byte) []UtxoInfo {
 					}
 
 					//当找到一笔自己能解锁的交易的时候,就把这条输出放在集合里面
-					utxoInfo := UtxoInfo{tx.Id, opIndex, txOutPut}
+					utxoInfo := UtxoInfo{tx.Id, int64(opIndex), txOutPut}
 					utxoInfos = append(utxoInfos, utxoInfo)
 				}
 			}
@@ -247,7 +263,7 @@ func (blockChain *BlockChain) GetBalance(address string) float64 {
 
 type UtxoInfo struct {
 	TxId  []byte
-	Index int
+	Index int64
 	Utxo  TXOutput
 }
 
@@ -260,7 +276,7 @@ func (blockChain *BlockChain) GetSuitableUtxos(pubkeyHash []byte, amount float64
 	needUtxos := make(map[string][]int64)
 	for _, utxoInfo := range utxoInfos {
 		key := string(utxoInfo.TxId)
-		needUtxos[key] = append(needUtxos[key], int64(utxoInfo.Index))
+		needUtxos[key] = append(needUtxos[key], utxoInfo.Index)
 		calc += utxoInfo.Utxo.Value
 		if calc >= amount {
 			fmt.Println("已经满足,calc is", calc)
@@ -269,4 +285,86 @@ func (blockChain *BlockChain) GetSuitableUtxos(pubkeyHash []byte, amount float64
 	}
 	fmt.Println("已经满足,calc is", calc)
 	return needUtxos, calc
+}
+
+//这个方法提供当前交易inputs应用的所有交易对象
+func (blockChain *BlockChain) Sign(transaction *Transaction, privateKey *ecdsa.PrivateKey) bool {
+	fmt.Println("对交易的数据进行签名")
+	prevTxs := make(map[string]*Transaction)
+	for _, input := range transaction.TxInputs {
+		txId := string(input.TXId)
+		tx := blockChain.FindTxById(txId)
+		if tx == nil {
+			return false
+		}
+		prevTxs[txId] = tx
+	}
+
+	return transaction.Sign(privateKey, prevTxs)
+}
+
+//根据交易id,找到对应的交易
+func (blockChain *BlockChain) FindTxById(txId string) *Transaction {
+	//遍历所有的区块
+	iterator := blockChain.CreateIterator()
+	for {
+		block := iterator.GetBlock()
+
+		transactions := block.Transactions
+		for _, tx := range transactions {
+			if bytes.Compare(tx.Id, []byte(txId)) == 0 {
+				return tx
+			}
+		}
+
+		if len(block.PrevHash) == 0 {
+			break
+		}
+	}
+
+	return nil
+}
+
+//对区块中的交易进行验证
+func (blockChain *BlockChain) Verify(transaction *Transaction) bool {
+	//根据交易id获得之前所有相关的交易
+	prevTxs := make(map[string]*Transaction)
+	for _, input := range transaction.TxInputs {
+		//根据id找交易
+		txId := string(input.TXId)
+		prevTx := blockChain.FindTxById(txId)
+		if prevTx == nil {
+			return false
+		}
+		prevTxs[txId] = prevTx
+	}
+	return transaction.Verify(prevTxs)
+}
+func (blockChain *BlockChain) GetChainData() string {
+	//创建迭代器
+	iterator := blockChain.CreateIterator()
+	//遍历
+	data := ""
+	for {
+		block := iterator.GetBlock()
+		data += fmt.Sprintf("Version :%d\n", block.Version)
+		data += fmt.Sprintf("PrevBlockHash :%x\n", block.PrevHash)
+		data += fmt.Sprintf("MerkeRoot :%x\n", block.MerkelRoot)
+		timeFormat := time.Unix(int64(block.TimeStamp), 0).Format("2006-01-02 15:04:05")
+		data += fmt.Sprintf("TimeStamp: %s\n", timeFormat)
+		//fmt.Printf("TimeStamp :%d\n", block.TimeStamp)
+		data += fmt.Sprintf("Difficulty :%d\n", block.Difficulty)
+		data += fmt.Sprintf("Nonce :%d\n", block.Nonce)
+		data += fmt.Sprintf("Hash :%x\n", block.Hash)
+		/*for _,tx := range block.Transactions{
+			data += fmt.Sprintf("Transactions :%s\n", tx.String)
+		}*/
+		pow := NewProofOfWork(block)
+		data += fmt.Sprintf("IsValid : %v\n\n", pow.IsValid())
+		if len(block.PrevHash) == 0 {
+			break
+		}
+		data += "---------------------------------------next block----------------------------------------------------\n"
+	}
+	return data
 }

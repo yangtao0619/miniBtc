@@ -34,6 +34,7 @@ func NewWalletCollection() *WalletCollection {
 	return &walletCtl
 }
 
+
 //创建新的钱包,返回新钱包的地址
 func (walletClt *WalletCollection) CreateWallet() string {
 	wallet := NewWallet()

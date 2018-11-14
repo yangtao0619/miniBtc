@@ -18,7 +18,7 @@ func (cli *CLI) SendToSomeOne(from string, to, miner string, amount float64, dat
 	} else {
 		fmt.Println("余额不足,创建交易失败")
 	}
-	blockChain.AppendBlockToChain(txs)
+	blockChain.AddBlock(txs)
 }
 
 //创建一个钱包

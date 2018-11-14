@@ -19,11 +19,13 @@ func StartGui() {
 	var teNewAddress *walk.TextEdit
 	var teTxData *walk.TextEdit
 	var teNewChainState *walk.TextEdit
+	var blockChainData *walk.TextEdit
 	var labelTxState *walk.Label
 	var labelCreateChainState *walk.Label
 
 	MainWindow{
-		Title:   "SCREAMO",
+
+		Title:   "迷你比特币客户端",
 		MinSize: Size{Width: 800, Height: 1000},
 		Layout:  VBox{},
 		Children: []Widget{
@@ -43,18 +45,18 @@ func StartGui() {
 			TextEdit{
 				Text:     "新的钱包地址",
 				AssignTo: &teNewAddress,
-				MaxSize:  Size{Width: 800, Height: 80},
+				MaxSize:  Size{Width: 800, Height: 30},
 			},
 			TextEdit{
 				Text:     "输入创建区块链的地址",
 				AssignTo: &teNewChainState,
-				MaxSize:  Size{Width: 800, Height: 80},
+				MaxSize:  Size{Width: 800, Height: 30},
 			},
 			PushButton{
 				Text: "创建区块链",
 				OnClicked: func() {
 					address := teNewChainState.Text()
-					if address == "" {
+					if address == "" || address == "输入创建区块链的地址" {
 						teNewChainState.SetText("地址不正确")
 						return
 					}
@@ -110,7 +112,8 @@ func StartGui() {
 						balance := queryValue(address)
 						fmt.Printf("查询%s余额\n", address)
 						tBalance := strconv.FormatFloat(balance, 'f', -1, 64)
-						labelSearchResult.SetText(tBalance)
+						fmt.Printf("查询%s余额成功\n", address)
+						labelSearchResult.SetText("当前地址余额为:" + tBalance)
 					}()
 
 				},
@@ -122,27 +125,27 @@ func StartGui() {
 			TextEdit{
 				Text:     "交易发起人",
 				AssignTo: &teTxFrom,
-				MaxSize:  Size{Width: 800, Height: 50},
+				MaxSize:  Size{Width: 800, Height: 30},
 			},
 			TextEdit{
 				Text:     "交易接收人",
 				AssignTo: &teTxTo,
-				MaxSize:  Size{Width: 800, Height: 50},
+				MaxSize:  Size{Width: 800, Height: 30},
 			},
 			TextEdit{
 				Text:     "矿工",
 				AssignTo: &teTxMiner,
-				MaxSize:  Size{Width: 800, Height: 50},
+				MaxSize:  Size{Width: 800, Height: 30},
 			},
 			TextEdit{
 				Text:     "金额",
 				AssignTo: &teTxAmount,
-				MaxSize:  Size{Width: 800, Height: 50},
+				MaxSize:  Size{Width: 800, Height: 30},
 			},
 			TextEdit{
 				Text:     "数据",
 				AssignTo: &teTxData,
-				MaxSize:  Size{Width: 800, Height: 50},
+				MaxSize:  Size{Width: 800, Height: 30},
 			},
 			PushButton{
 				Text: "开始交易",
@@ -168,8 +171,28 @@ func StartGui() {
 				AssignTo: &labelTxState,
 				Text:     "交易状态",
 			},
+			PushButton{
+				Text: "查询当前区块链数据",
+				OnClicked: func() {
+					go func() {
+						data := getBlockChainData()
+						blockChainData.SetText(data)
+					}()
+				},
+			},
+			TextEdit{
+				Text:     "区块数据",
+				AssignTo: &blockChainData,
+				MaxSize:  Size{Width: 800, Height: 100},
+			},
 		},
 	}.Run()
+}
+func getBlockChainData() string {
+	fmt.Println("打印区块链")
+	bc := GetBlockChainObject()
+	data := bc.GetChainData()
+	return data
 }
 
 //发起一笔转账交易
@@ -195,7 +218,7 @@ func startTransfer(from string, to string, miner string, amount string, data str
 		fmt.Println("余额不足,创建交易失败")
 		state = false
 	}
-	blockChain.AppendBlockToChain(txs)
+	blockChain.AddBlock(txs)
 	return state
 }
 

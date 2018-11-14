@@ -8,6 +8,7 @@ import (
 	"golang.org/x/crypto/ripemd160"
 	"crypto/sha256"
 	"github.com/base58"
+	"bytes"
 )
 
 /*
@@ -37,10 +38,12 @@ func NewWallet() *Wallet {
 	publicKey := privateKey.PublicKey
 
 	var pubkey []byte
-	pubkey = append(publicKey.Y.Bytes(), publicKey.Y.Bytes()...)
+	pubkey = append(publicKey.X.Bytes(), publicKey.Y.Bytes()...)
 
 	return &Wallet{PrivateKey: privateKey, PubKey: pubkey}
 }
+
+
 
 //生成钱包的地址,地址是由公钥进行一系列运算之后得到的
 func (wallet *Wallet) GetAddress() string {
@@ -54,8 +57,25 @@ func (wallet *Wallet) GetAddress() string {
 	//将b和c拼接在一起进行base58运算得到地址
 	d := append(b, c...)
 	address := base58.Encode(d)
-	fmt.Println("address is ",address)
 	return address
+}
+
+//校验地址是否正确
+func IsAddressValid(address string) bool{
+	//1. 解码base58
+	decodeInfo := base58.Decode(address)
+
+	//2. 截取前21字节和 后四个字节
+	payload := decodeInfo[0: len(decodeInfo)-4]
+	checksum1 := decodeInfo[len(decodeInfo)-4:]
+
+	//3. 对前21字节进行checksum计算
+	firstHash := sha256.Sum256(payload)
+	secondHash := sha256.Sum256(firstHash[:])
+	checksum2 := secondHash[0:4]
+
+	//4. 比较生成cheksum1和截取cheksum2
+	return bytes.Equal(checksum1, checksum2)
 }
 
 //将b进行两次sha256运算

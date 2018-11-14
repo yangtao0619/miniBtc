@@ -61,7 +61,6 @@ func (pow *ProofOfWork) Run() ([]byte, uint64) {
 		 */
 		if tempInt.Cmp(&pow.target) == -1 {
 			//挖矿成功
-			fmt.Printf("bytesInfo %x\n", bytesInfo)
 			return sum256Hash[:], nonce
 		} else { //大于目标值
 			//log.Println("大于目标值,hash is", sum256Hash[:], "nonce is", nonce)
@@ -90,7 +89,6 @@ func (pow *ProofOfWork) IsValid() bool {
 	block := pow.block
 	prepareData := pow.prepareData(block.Nonce)
 	sum256Hash := sha256.Sum256(prepareData)
-	fmt.Printf("bytesInfo %x\n", sum256Hash)
 	//转成bitInt
 	var tempInt big.Int
 	tempInt.SetBytes(sum256Hash[:])
