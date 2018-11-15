@@ -70,7 +70,7 @@ func NewOutput(value float64, address string) *TXOutput {
 }
 
 //这个方法创建新区块的第一笔交易,没有输入,只有输出
-func CreateCoinBase(data, miner string) *Transaction {
+	func CreateCoinBase(data, miner string) *Transaction {
 	fmt.Println("创建挖矿交易", miner)
 	//这里的输入应该为空
 	input := TXInput{nil, -1, nil, []byte(data)}
@@ -203,6 +203,8 @@ func (transaction *Transaction) CopyTransaction() *Transaction {
 //验证所有的交易是否合法
 func (transaction *Transaction) Verify(transactions map[string]*Transaction) bool {
 	//校验传来的所有的交易是否是合法有效的
+
+
 	copyTx := transaction.CopyTransaction()
 	for i, input := range transaction.TxInputs {
 		//将output中的公钥hash赋值给input的公钥

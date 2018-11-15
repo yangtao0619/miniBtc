@@ -293,7 +293,7 @@ func (blockChain *BlockChain) Sign(transaction *Transaction, privateKey *ecdsa.P
 	prevTxs := make(map[string]*Transaction)
 	for _, input := range transaction.TxInputs {
 		txId := string(input.TXId)
-		tx := blockChain.FindTxById(txId)
+		tx := blockChain.FindTxById(input.TXId)
 		if tx == nil {
 			return false
 		}
@@ -304,7 +304,7 @@ func (blockChain *BlockChain) Sign(transaction *Transaction, privateKey *ecdsa.P
 }
 
 //根据交易id,找到对应的交易
-func (blockChain *BlockChain) FindTxById(txId string) *Transaction {
+func (blockChain *BlockChain) FindTxById(txId []byte) *Transaction {
 	//遍历所有的区块
 	iterator := blockChain.CreateIterator()
 	for {
@@ -312,7 +312,7 @@ func (blockChain *BlockChain) FindTxById(txId string) *Transaction {
 
 		transactions := block.Transactions
 		for _, tx := range transactions {
-			if bytes.Compare(tx.Id, []byte(txId)) == 0 {
+			if bytes.Compare(tx.Id, txId) == 0 {
 				return tx
 			}
 		}
@@ -328,15 +328,18 @@ func (blockChain *BlockChain) FindTxById(txId string) *Transaction {
 //对区块中的交易进行验证
 func (blockChain *BlockChain) Verify(transaction *Transaction) bool {
 	//根据交易id获得之前所有相关的交易
+	if transaction.isCoinBase() {
+		return true
+	}
 	prevTxs := make(map[string]*Transaction)
 	for _, input := range transaction.TxInputs {
 		//根据id找交易
-		txId := string(input.TXId)
-		prevTx := blockChain.FindTxById(txId)
+		prevTx := blockChain.FindTxById(input.TXId)
 		if prevTx == nil {
+			fmt.Println("prev Tx is nil,txId is ", string(input.TXId))
 			return false
 		}
-		prevTxs[txId] = prevTx
+		prevTxs[string(input.TXId)] = prevTx
 	}
 	return transaction.Verify(prevTxs)
 }
