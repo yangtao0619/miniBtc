@@ -1,5 +1,5 @@
-# miniBtc
-实现一个小型的比特币客户端,功能包括
+### miniBtc
+一个小型的比特币客户端,实现UTXO账户模型和交易签名,验证,钱包等.具体可操作功能包括:
 
 + 1.`block generateBc --address Address` 生成一条新的区块链,Address表示创建人的地址
 + 2.`block printBc` 打印出当前的区块链数据
