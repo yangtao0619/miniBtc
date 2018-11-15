@@ -5,6 +5,7 @@ import (
 	"github.com/lxn/walk"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 func StartGui() {
@@ -175,24 +176,46 @@ func StartGui() {
 				Text: "查询当前区块链数据",
 				OnClicked: func() {
 					go func() {
-						data := getBlockChainData()
-						blockChainData.SetText(data)
+						getBlockChainData(blockChainData)
 					}()
 				},
 			},
 			TextEdit{
 				Text:     "区块数据",
 				AssignTo: &blockChainData,
-				MaxSize:  Size{Width: 800, Height: 100},
+				MaxSize:  Size{Width: 800, Height: 200},
 			},
 		},
 	}.Run()
 }
-func getBlockChainData() string {
+func getBlockChainData(blockChainData *walk.TextEdit) {
 	fmt.Println("打印区块链")
-	bc := GetBlockChainObject()
-	data := bc.GetChainData()
-	return data
+	//创建迭代器
+	blockChain := GetBlockChainObject()
+	iterator := blockChain.CreateIterator()
+	//遍历
+	for {
+		block := iterator.GetBlock()
+		blockChainData.AppendText(fmt.Sprintf("Version :%d\n", block.Version))
+		blockChainData.AppendText(fmt.Sprintf("PrevBlockHash :%x\n", block.PrevHash))
+		blockChainData.AppendText(fmt.Sprintf("MerkeRoot :%x\n", block.MerkelRoot))
+		timeFormat := time.Unix(int64(block.TimeStamp), 0).Format("2006-01-02 15:04:05")
+		blockChainData.AppendText(fmt.Sprintf("TimeStamp: %s\n", timeFormat))
+		//fmt.Printf("TimeStamp :%d\n", block.TimeStamp)
+		blockChainData.AppendText(fmt.Sprintf("Difficulty :%d\n", block.Difficulty))
+		blockChainData.AppendText(fmt.Sprintf("Nonce :%d\n", block.Nonce))
+		blockChainData.AppendText(fmt.Sprintf("Hash :%x\n", block.Hash))
+		/*for _, tx := range block.Transactions {
+			blockChainData.AppendText(fmt.Sprintf("Transactions :%s\n", tx.String()))
+		}*/
+		pow := NewProofOfWork(block)
+		blockChainData.AppendText(fmt.Sprintf("IsValid : %v\n\n", pow.IsValid()))
+		if len(block.PrevHash) == 0 {
+			break
+		}
+		blockChainData.AppendText("---------------------------------------next block----------------------------------------------------\n")
+	}
+	fmt.Println("print data")
 }
 
 //发起一笔转账交易

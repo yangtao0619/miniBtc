@@ -42,9 +42,6 @@ type Transaction struct {
 	TxOutputs []TXOutput
 }
 
-func (tx *Transaction) String() {
-	//todo 重写String方法
-}
 
 func (transaction *Transaction) SetTxId() {
 	//设置交易当前的hash,需要将tx编码

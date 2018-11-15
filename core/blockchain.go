@@ -369,5 +369,6 @@ func (blockChain *BlockChain) GetChainData() string {
 		}
 		data += "---------------------------------------next block----------------------------------------------------\n"
 	}
+	fmt.Println("return data")
 	return data
 }
